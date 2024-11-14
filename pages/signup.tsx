@@ -25,8 +25,9 @@ const Signup = () => {
                 email,
                 password
             });
-            console.log("success")
-            // router.push("/login");
+            
+            router.push("/login");
+
         }catch(err){
             console.log(err);
             alert("入力内容が正しくありません。");

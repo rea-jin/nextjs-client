@@ -1,4 +1,5 @@
 import Navbar from "@/src/components/Navbar";
+import { AuthProvider } from "@/src/context/auth";
 import "@/styles/globals.css";
 import type { AppProps } from "next/app";
 
@@ -6,9 +7,13 @@ import type { AppProps } from "next/app";
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
-  <div>
-    <Navbar />
-    <Component {...pageProps} />;
-    </div>
+    <AuthProvider>
+      {/* ここから下がAuthProviderのchildrenになる
+      auth.tsxで定義したvalueの中身を使える */}
+      <div>
+        <Navbar />
+        <Component {...pageProps} />;
+      </div>
+    </AuthProvider>
   );
 }

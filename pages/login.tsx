@@ -1,7 +1,43 @@
+import { useAuth } from '@/src/context/auth';
+import apiClient from '@/src/lib/apiClient';
 import Head from 'next/head';
-import React from 'react'
+import { useRouter } from 'next/router';
+import React, { useState } from 'react'
 
-const login = () => {
+const Login = () => {
+    const [email, setEmail] = useState<string>("");
+    const [password, setPassword] = useState<string>("");
+
+    // リダイレクトに使う
+    const router = useRouter();
+
+    // custom hooks
+    const {login} = useAuth();
+
+    // イベントなのでそれに合った型を指定
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>)=>{
+        e.preventDefault();
+
+        console.log(email,password);
+        // apiへ送信
+        try{
+            const response = await apiClient.post("/auth/login", {
+                email,
+                password
+            });
+            const token = response.data.token;
+            console.log(token);
+
+            login(token);
+
+            router.push("/");
+
+        }catch(err){
+            console.log(err);
+            alert("入力内容が正しくありません。");
+        }
+    }
+
   return (
     <div
     style={{ height: "88vh" }}
@@ -17,7 +53,7 @@ const login = () => {
     </div>
     <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
         <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
-        <form>
+        <form onSubmit={handleSubmit}>
             <div>
             <label
                 htmlFor="email"
@@ -32,6 +68,7 @@ const login = () => {
                 autoComplete="email"
                 required
                 className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 text-base focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+                onChange={(e:React.ChangeEvent<HTMLInputElement>)=>setEmail(e.target.value)}
             />
             </div>
             <div className="mt-6">
@@ -48,6 +85,7 @@ const login = () => {
                 autoComplete="current-password"
                 required
                 className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 text-base focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+                onChange={(e:React.ChangeEvent<HTMLInputElement>)=>setPassword(e.target.value)}
             />
             </div>
             <div className="mt-6">
@@ -65,4 +103,4 @@ const login = () => {
   );
 }
 
-export default login
+export default Login
