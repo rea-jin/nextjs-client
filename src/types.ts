@@ -5,7 +5,7 @@ export interface UserType {
     usernmae: string;
     email: string;
     password: string;
-    posts: Post[];
+    posts: PostType[];
 }
 
 
@@ -14,5 +14,5 @@ export interface PostType {
     content: string;
     createdAt: string;
     authorId: number;
-    author: User;
+    author: UserType;
 }
