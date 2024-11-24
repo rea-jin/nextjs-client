@@ -2,7 +2,8 @@
 // アプリ全体で使いたい値
 // 状態管理にはreduxもあるが、今回はreact.hooksのusecontextをつかう
 
-import React , { useContext } from 'react'
+import React , { useContext, useEffect } from 'react'
+import apiClient from '../lib/apiClient';
 
 interface AuthContextType{
     login: (token: string) => void; // 何も返さないのでvoid
@@ -26,8 +27,18 @@ export const useAuth = ()=>{
     return useContext(AuthContext);
 }
 
+// middleware
 export const AuthProvider = ({ children }: AuthProviderProps)=>{
-    // うえでlogin呼び出した時
+
+    const token = localStorage.getItem("auth_token");
+    // []を渡すと、そのuseEffectは初回のレンダリング時に1回だけ実行される
+    // コンポーネントがマウントされるとき
+    // もし依存配列に値を入れると、その値が変化するたびにuseEffectが実行される
+    useEffect(()=>{
+        apiClient.defaults.headers["Authorization"] = `Bearer ${token}`;
+    }, []);
+
+    // うえでlogin呼び出した時ローカルストレージにトークンセット
     const login = async (token : string)=>{
         localStorage.setItem("auth_token",token)
     };
@@ -42,5 +53,7 @@ export const AuthProvider = ({ children }: AuthProviderProps)=>{
     };
 
     // このコンポーネントでvalueが使える
+    // childrenをラップしているので、アプリ全体でこのAuthProviderが動く
+    // useEffectもアプリリロード時などに毎回動く
     return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
