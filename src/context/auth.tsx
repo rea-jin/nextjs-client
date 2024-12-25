@@ -29,12 +29,12 @@ export const useAuth = ()=>{
 
 // middleware
 export const AuthProvider = ({ children }: AuthProviderProps)=>{
-
-    const token = localStorage.getItem("auth_token");
-    // []を渡すと、そのuseEffectは初回のレンダリング時に1回だけ実行される
-    // コンポーネントがマウントされるとき
-    // もし依存配列に値を入れると、その値が変化するたびにuseEffectが実行される
+    
     useEffect(()=>{
+        const token = localStorage.getItem("auth_token");
+        // []を渡すと、そのuseEffectは初回のレンダリング時に1回だけ実行される
+        // コンポーネントがマウントされるとき
+        // もし依存配列に値を入れると、その値が変化するたびにuseEffectが実行される
         apiClient.defaults.headers["Authorization"] = `Bearer ${token}`;
     }, []);
 
