@@ -37,6 +37,7 @@ const Timeline = () => {
 
       }catch(err){
         console.log(err);
+        console.log(err.status);
       }
     };
 
