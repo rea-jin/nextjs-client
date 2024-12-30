@@ -19,7 +19,7 @@ interface AuthProviderProps{
 }
 
 const AuthContext = React.createContext<AuthContextType>({
-    user: null,
+    user: null ,
     login: ()=> {},
     logout: ()=>{}
 });
@@ -43,6 +43,7 @@ export const AuthProvider = ({ children }: AuthProviderProps)=>{
             apiClient.defaults.headers["Authorization"] = `Bearer ${token}`;
             // トークンがあれば、apiをたたく
             apiClient.get("/users/find").then((res)=>{
+                console.log(res.data);
                 setUser(res.data.user);
             }).catch((err)=>{
                 console.log(err);
@@ -53,6 +54,8 @@ export const AuthProvider = ({ children }: AuthProviderProps)=>{
     // うえでlogin呼び出した時ローカルストレージにトークンセット
     const login = async (token : string)=>{
         localStorage.setItem("auth_token",token);
+        // headerにセットし直さないとisAuthenticatedがtrueにならない
+        apiClient.defaults.headers["Authorization"] = `Bearer ${token}`;
 
         // user情報を取得
         try {
@@ -67,6 +70,8 @@ export const AuthProvider = ({ children }: AuthProviderProps)=>{
 
     const logout = () => {
         localStorage.removeItem("auth_token");
+        delete apiClient.defaults.headers["Authorization"];
+        setUser(null);
     };
 
     const value = {
@@ -74,10 +79,13 @@ export const AuthProvider = ({ children }: AuthProviderProps)=>{
         login,
         logout,
     };
-
+    console.log(value);
     // このコンポーネントでvalueが使える
     // childrenをラップしているので、アプリ全体でこのAuthProviderが動く
     // useEffectもアプリリロード時などに毎回動く
     return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
 
+
+// このAuthProviderを_app.tsxで使う
+// これでアプリ全体でログイン情報が使えるようになる

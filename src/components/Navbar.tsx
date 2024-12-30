@@ -1,9 +1,9 @@
 import Link from 'next/link';
 import React from 'react'
-import { useAuth } from '../context/auth'; // auth.tsxのhooksを使う
+import { useAuth } from '@/src/context/auth'; // auth.tsxのhooksを使う
 
 export const Navbar = () => {
-    const { user, logout } = useAuth;
+    const { user, logout } = useAuth();
     console.log(user);
 
   return (
@@ -26,7 +26,7 @@ export const Navbar = () => {
                         >
                         プロフィール
                     </Link>
-                    <button className="bg-white text-gray-900 py-2 px-3 rounded-lg font-medium">
+                    <button onClick={logout} className="bg-white text-gray-900 py-2 px-3 rounded-lg font-medium">
                         ログアウト
                     </button>
                     </>
