@@ -6,7 +6,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint --dir pages --dir src"
+    "lint": "eslint pages src"
   },
   "dependencies": {
     "axios": "^1.13.6",
