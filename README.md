@@ -1,7 +1,16 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/pages/api-reference/create-next-app).
+# Vercelでセキュリティエラーのため
+nextjs 15.0.1 -> 16へ
+最新安定版へアップデート
+npm install next@latest
 
-## Getting Started
+もしくは安全に：
 
+npx npm-check-updates -u
+npm install
+
+# lockファイルも必ずコミット
+重要です。
+package-lock.json
 First, run the development server:
 
 ```bash
