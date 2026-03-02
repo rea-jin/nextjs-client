@@ -21,7 +21,7 @@ const Homepage = () => {
           className={`${geistSans.variable} ${geistMono.variable} grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-4 pb-20 gap-6 sm:p-20 font-[family-name:var(--font-geist-sans)]`}
         >
           <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-           <h1 className="_header_3cx2j_7 items-center">SNS APP</h1>
+           <h1 className="_header_3cx2j_7 items-center">SNS APP ⭐️</h1>
             <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:--font-geist-mono]">
               <li className="mb-2">
                 This page is{" "}
